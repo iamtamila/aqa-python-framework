@@ -9,3 +9,11 @@ dependencies = [
     "python-dotenv>=1.2.4",
     "requests>=2.34.2",
 ]
+
+[tool.pytest.ini_options]
+# где искать тесты
+testpaths = ["tests"]
+# добавляем корень проекта в пути импорта, чтобы работало "from framework..."
+pythonpath = ["."]
+# флаги по умолчанию: -v = подробный вывод, -ra = итог по пропущенным и упавшим
+addopts = "-v -ra"
