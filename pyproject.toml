@@ -1,0 +1,11 @@
+[project]
+name = "aqa-python-framework"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "pydantic>=2.14.2",
+    "pytest>=9.2.0",
+    "pytest-playwright>=0.10.0",
+    "python-dotenv>=1.2.4",
+    "requests>=2.34.2",
+]
