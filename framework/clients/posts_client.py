@@ -12,3 +12,7 @@ class PostsClient:
 
     def create_post(self, payload: dict) -> requests.Response:
         return self.session.post(f"{self.base_url}/posts", json=payload, timeout=10)
+
+    def get_posts(self, user_id: int | None = None) -> requests.Response:
+        params = {"userId": user_id} if user_id is not None else None
+        return self.session.get(f"{self.base_url}/posts", params = params, timeout = 10)

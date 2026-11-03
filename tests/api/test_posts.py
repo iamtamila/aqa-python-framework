@@ -12,7 +12,9 @@ def test_get_post_returns_200_valid_schema(posts_client):
 def test_create_post_returns_201_valid_schema(posts_client):
     payload = {"title": "AQA", "body": "first post", "userId": 1}
     response = posts_client.create_post(payload)
-    assert response.status_code == 201, response.text
+    assert response.status_code == 201, response.text(
+    f"Ожидали 201, получили {response.status_code}: {response.text[:300]}"
+)
     created = Post.model_validate(response.json())
     assert created.title == payload["title"]
     assert created.body == payload["body"]
