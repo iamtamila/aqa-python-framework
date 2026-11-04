@@ -16,12 +16,12 @@ def test_all_user_emails_contain_at_sign(users_client):
 def test_users_id_are_unique(users_client):
     users = users_client.get_users().json()
     ids = [u["id"] for u in users]
-    assert len(ids) == len(set(ids)), f"Есть повторяющиеся id: {ids}"
+    assert len(ids) == len(set(ids)), f"there're duplicates id: {ids}"
 
 def test_user_has_address_with_city_and_geo(users_client):
     user = users_client.get_user(1).json()
     address = user["address"]           # вкладываемся на уровень глубже
-    assert address["city"], "Город пустой"   # пустая строка = False → тест упадёт
+    assert address["city"], "city is empty"   # пустая строка = False → тест упадёт
     assert "geo" in address, f"Нет координат в адресе: {address}"
 
 @pytest.mark.parametrize("user_id", [1, 5, 10])
@@ -30,7 +30,12 @@ def test_posts_filtered_by_user_belong_only_to_that_user(posts_client, user_id):
 
     # Сначала проверяем, что список не пустой. Иначе следующая проверка
     # «все посты принадлежат пользователю» пройдёт на пустом списке — ложный зелёный тест!
-    assert posts, f"Для userId={user_id} не пришло ни одного поста"
+    assert posts, f"for userId={user_id} has no posts returned"
 
     wrong_posts = [p["id"] for p in posts if p["userId"] != user_id]
-    assert not wrong_posts, f"Фильтр userId={user_id} вернул чужие посты: {wrong_posts}"
+    assert not wrong_posts, f"filter userId={user_id} returned other users' posts: {wrong_posts}"
+
+@pytest.mark.parametrize("user_id", [0, 999, -1])
+def test_user_non_existent_id_is_404(users_client, user_id):
+    response = users_client.get_user(user_id)
+    assert response.status_code == 404, f"id={user_id}: {response.status_code}"
