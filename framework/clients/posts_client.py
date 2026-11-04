@@ -16,3 +16,9 @@ class PostsClient:
     def get_posts(self, user_id: int | None = None) -> requests.Response:
         params = {"userId": user_id} if user_id is not None else None
         return self.session.get(f"{self.base_url}/posts", params = params, timeout = 10)
+
+    def get_post_comments(self, post_id: int) -> requests.Response:
+        return self.session.get(f"{self.base_url}/posts/{post_id}/comments", timeout = 10)
+
+
+    

@@ -1,0 +1,17 @@
+import pytest
+from pydantic import TypeAdapter  
+from framework.models.comment import Comment
+
+def test_get_posts_comments_returns_200(posts_client):
+    response = posts_client.get_post_comments(1)
+    assert response.status_code == 200, (
+        f"Ожидаемый 200, получили {response.status_code}: {response.text[:300]}"
+    )
+    comments = TypeAdapter(list[Comment]).validate_python(response.json())
+    assert comments, "Комментарии к посту 1 не пришли"
+
+    wrong = [c.id for c in comments if c.postId != 1]
+    assert not wrong, f"Комментарии чужих постов: {wrong}"
+
+    bad_emails = [c.email for c in comments if "@" not in c.email]
+    assert not bad_emails, f"Комментарий без @ в email: {bad_emails}"
