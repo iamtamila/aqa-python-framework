@@ -1,4 +1,5 @@
 import pytest
+pytestmark = pytest.mark.api
 
 def test_users_list_returns_10_users(users_client):
     response = users_client.get_users()

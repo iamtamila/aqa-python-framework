@@ -16,4 +16,9 @@ testpaths = ["tests"]
 # добавляем корень проекта в пути импорта, чтобы работало "from framework..."
 pythonpath = ["."]
 # флаги по умолчанию: -v = подробный вывод, -ra = итог по пропущенным и упавшим
-addopts = "-v -ra"
+addopts = "-v -ra --strict-markers"
+markers = [
+    "smoke",
+    "api",
+    "e2e"
+]
