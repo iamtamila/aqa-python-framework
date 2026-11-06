@@ -1,8 +1,9 @@
 import re
-
+pytestmark = pytest.mark.e2e
 from playwright.sync_api import Page, expect
 from framework.config import UI_BASE_URL, SAUCE_USER, SAUCE_PASSWORD
 
+@pytest.mark.smoke
 def test_login_with_valid_credentials(page: Page):
     page.goto(UI_BASE_URL)
     page.get_by_placeholder("Username").fill(SAUCE_USER)

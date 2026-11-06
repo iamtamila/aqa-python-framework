@@ -1,6 +1,7 @@
 import pytest
 from pydantic import TypeAdapter  
 from framework.models.comment import Comment
+pytestmark = pytest.mark.api
 
 def test_get_posts_comments_returns_200(posts_client):
     response = posts_client.get_post_comments(1)

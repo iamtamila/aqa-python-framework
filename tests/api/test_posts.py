@@ -1,6 +1,8 @@
 import pytest
 from framework.models.post import Post
+pytestmark = pytest.mark.api
 
+@pytest.mark.smoke
 def test_get_post_returns_200_valid_schema(posts_client):
     response = posts_client.get_post(1)
     assert response.status_code == 200, (
