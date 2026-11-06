@@ -1,4 +1,5 @@
 import re
+import pytest
 pytestmark = pytest.mark.e2e
 from playwright.sync_api import Page, expect
 from framework.config import UI_BASE_URL, SAUCE_USER, SAUCE_PASSWORD

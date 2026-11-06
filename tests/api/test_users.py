@@ -1,9 +1,10 @@
 import pytest
+from framework.helpers.assertions import assert_status
 pytestmark = pytest.mark.api
 
 def test_users_list_returns_10_users(users_client):
     response = users_client.get_users()
-    assert response.status_code == 200, response.text
+    assert_status(response, 200)
 
     users = response.json()
     assert isinstance(users, list),  f"Ожидали список, пришло: {type(users)}"
@@ -39,4 +40,4 @@ def test_posts_filtered_by_user_belong_only_to_that_user(posts_client, user_id):
 @pytest.mark.parametrize("user_id", [0, 999, -1])
 def test_user_non_existent_id_is_404(users_client, user_id):
     response = users_client.get_user(user_id)
-    assert response.status_code == 404, f"id={user_id}: {response.status_code}"
+    assert_status(response, 404)
